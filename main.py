@@ -41,11 +41,18 @@ def getContours(img):
         #for each contour find the area first
         area = cv2.contourArea(cnt)
         print(area)
-        cv2.drawContours(imgContour, cnt, -1, (255, 0, 0), 3)
-        
-
-
-
+        if area > 500:
+            #only then do the calculation
+            cv2.drawContours(imgContour, cnt, -1, (255, 0, 0), 3)
+            peri = cv2.arcLength(cnt, True)
+            print(peri)
+            #the function approxPolyDP gives the curves
+            approx = cv2.approxPolyDP(cnt, 0.02 * peri, True)
+            print(len(approx)) # this will give the number of corners the shape has...
+            objCor = len(approx)
+            x, y, w, h = cv2.boundingRect(approx)
+            cv2.rectangle(imgContour, (x, y), (x+w, y+h), (0, 255, 0), 2)
+            
 
 
 path = 'assets/shapes.png'
