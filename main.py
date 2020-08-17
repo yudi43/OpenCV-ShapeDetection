@@ -51,9 +51,16 @@ def getContours(img):
             print(len(approx)) # this will give the number of corners the shape has...
             objCor = len(approx)
             x, y, w, h = cv2.boundingRect(approx)
+             
+            if objCor == 3: objectType = 'Tri'
+            elif objCor == 4:
+                aspRatio = w/float(h)
+                if aspRatio > 0.95 and aspRatio < 1.05: objectType = 'Square'
+                else: objectType = 'Rectangle'
+            elif objCor > 4: objectType = 'Circle'
+            else: objectType = 'None'
             cv2.rectangle(imgContour, (x, y), (x+w, y+h), (0, 255, 0), 2)
-            
-
+            cv2.putText(imgContour, objectType, (x+(w//2)-10, y+(h//2)), cv2.FONT_HERSHEY_COMPLEX, 0.5, (0, 255, 255), 2)
 
 path = 'assets/shapes.png'
 img = cv2.imread(path) 
