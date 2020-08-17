@@ -1,10 +1,6 @@
 import cv2
 import numpy as np
 
-path = 'assets/shapes.png'
-
-img = cv2.imread(path)
-
 def stackImages(scale,imgArray):
     rows = len(imgArray)
     cols = len(imgArray[0])
@@ -36,12 +32,14 @@ def stackImages(scale,imgArray):
         ver = hor
     return ver
 
-
+path = 'assets/shapes.png'
+img = cv2.imread(path)
 imgGray = cv2.cvtColor(img, cv2.COLOR_BGR2GRAY)
 imgBlur = cv2.GaussianBlur(imgGray, (7, 7), 1)
 
-
-cv2.imshow('Original', img)
-cv2.imshow('Gray Image', imgGray)
-cv2.imshow('Blue Image', imgBlur)
+imgStack = stackImages(0.6, (img, [imgGray, imgBlur]))
+#cv2.imshow('Original', img)
+#cv2.imshow('Gray Image', imgGray)
+#cv2.imshow('Blue Image', imgBlur)
+cv2.imshow('Stacked', imgStack)
 cv2.waitKey(0)
